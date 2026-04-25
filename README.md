@@ -54,11 +54,7 @@ The best model based on our results was SMOTE+Random Forest, so we will be inter
 
 <img width="1319" height="1720" alt="image" src="https://github.com/user-attachments/assets/13cb5d86-5474-4b69-99f6-6781c32332e6" />
 
-Global Explanation (Bar Plot and Beeswarm):
-
-Elevation is typically the most impactful feature — higher elevations strongly favor Spruce/Fir (Class 1) while lower elevations favor Ponderosa Pine (Class 3).
-Horizontal_Distance_To_Roadways and Horizontal_Distance_To_Hydrology reveal how tree species distribution is tied to human infrastructure and water access.
-Wilderness_Area dummy variables have high SHAP values — confirming that geographic zone is a strong predictor of which tree type dominates.
+The SHAP results supported the same general story as permutation importance: elevation and the distance-based features played a major role, and their influence changed direction depending on the observation. That is exactly why SHAP was useful - it did not only rank features, but it also showed that the effect of a feature could vary by case instead of acting as one fixed simple rule. 
 
  
 <img width="990" height="690" alt="image" src="https://github.com/user-attachments/assets/14616ea4-6041-41b4-8aaa-77caea34a008" />
