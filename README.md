@@ -24,12 +24,19 @@ Upon first examination, using missingno, we saw that there weren't any missing o
 The graph above is a histogram that shows the count numbers of our target variable Cover_type. 
 
 Cover_Type	
+
 2:	283301
+
 1:	211840
+
 3:	35754
+
 7:	20510
+
 6:	17367
+
 5:	9493
+
 4:	2747
 
 
