@@ -1,16 +1,16 @@
 # ENTER TITLE HERE
 
-### Business Problem 
-Forest cover type classification is important for environmental monitoring, land management, and ecological planning. The goal of this project is to predict the forest cover type from cartographic variables such as elevation, slope, aspect, and wilderness area.
+## Business Problem 
+This project predicts forest cover type from cartographic and environmental variables using machine learning. The dataset is highly imbalanced, so the project focuses on improving performance on minority classes rather than relying on accuracy alone.
 
-This problem is especially challenging because the target variable, Cover_Type, is highly imbalanced. Some classes appear far more often than others, which can cause standard machine learning models to favor the majority classes and perform poorly on rare cover types. Because of this, the project focuses on comparing imbalance-handling strategies to improve minority-class performance.
+To address this, I compared several models and imbalance-handling strategies, then selected the best-performing approach based on validation and test results. The final model was SMOTE + Random Forest, which gave the best balance of predictive performance, stability, and minority-class handling.
 
-### Project Overview 
-This project compares multiple machine learning approaches for multi-class classification on an imbalanced forest cover dataset. I evaluated a baseline Decision Tree and Random Forest, then compared two class imbalance methods: Random Undersampling and Balanced Bagging. I also included XGBoost as a stronger boosted-tree model.
+## Project Overview 
+Forest cover classification is useful for environmental monitoring, land management, and ecological decision-making. However, the target variable, Cover_Type, is severely imbalanced, which makes the problem more difficult.
 
-The main goal was to determine which method produced the best balance between overall performance and minority-class detection, using metrics such as macro F1-score, classification reports, and confusion matrices.
+If the model is trained without addressing imbalance, it can become biased toward the majority classes and perform poorly on rare cover types. That is why this project emphasizes stratified sampling, class imbalance techniques, and evaluation metrics that reflect performance across all classes.
 
-### Data
+## Data
 For this project we utilized the Roosevelt National Forest Dataset which was obtained from Kaggle.
 
 https://www.kaggle.com/datasets/uciml/forest-cover-type-dataset
@@ -21,7 +21,7 @@ Size: (581012, 55)
 
 Key features: Elevation, Aspect, Slope, Horizontal/Vertical Distance to Hydrology, Wilderness Area, Soil Type
 
-### Data Preprocessing 
+## Data Preprocessing 
 Upon first examination, using missingno, we saw that there weren't any missing or duplicate values. No cleaning or handling missing values was conducted. 
 
 
@@ -34,7 +34,7 @@ The data preprocessing steps included:
 
 Because the dataset was already clean and structured, no heavy imputation was required.
 
-### Exploratory Data Analysis 
+## Exploratory Data Analysis 
 The EDA focused on understanding class imbalance and the relationship between predictors and the target. The following visualizations were included:
 
 - Bar chart of class distribution for Cover_Type
@@ -53,89 +53,103 @@ The graph above is a histogram that shows the count numbers of our target variab
 <img width="788" height="490" alt="image" src="https://github.com/user-attachments/assets/2777e73d-d530-4b6a-9dc3-1a52594ba543" />
 
 
-### Modeling Approach 
-I used both baseline and advanced models to compare performance under imbalance handling.
+## Modeling Approach 
+I tested several machine learning models to compare simple baselines with stronger tree-based methods.
 
-Baseline models
+**Models tested** 
+- Logistic Regression
 - Decision Tree
 - Random Forest
-
-These were included because they are easy to interpret and provide a strong baseline for tabular classification problems.
-
-
-Advanced model
 - XGBoost
 
+**Why these models**
+- **Logistic Regression** served as a baseline.
+- **Decision Tree** offered interpretability but could overfit.
+- **Random Forest** improved stability by combining many trees.
+- **XGBoost** was tested because it performs well on structured tabular data.
 
-XGBoost was selected because it is a powerful gradient boosting model that often performs well on structured data.
+**Final selected model**
+- **SMOTE + Random Forest**
+This model performed best overall because it handled the imbalanced classes effectively while still producing strong predictive results. Random Forest was also a good fit for this dataset because it can model complex relationships between terrain features and forest cover type.
 
-Imbalance techniques compared
-- Random Undersampling
-- SMOTE 
-- Balanced Bagging
-- Cost-sensitive
+## Model Training 
+The models were evaluated using:
 
+- **Accuracy**
+- **Balanced Accuracy**
+- **Macro F1-score**
 
-Random Undersampling was used as a simple method to reduce majority class dominance. Balanced Bagging was used as a more advanced ensemble-based technique that trains each model on a balanced bootstrap sample.
+**Why these metrics** 
+- **Accuracy** shows overall correctness.
+- **Balanced Accuracy** accounts for imbalance by averaging recall across classes.
+- **Macro F1-score** is especially important because it gives equal weight to all seven cover types.
 
-### Model Training 
-All models were trained using a 60/20/20 stratified split:
+**Training process**
+- Hyperparameter tuning was performed using **RandomizedSearchCV**.
+- Cross-validation was **stratified** to preserve class proportions in each fold.
+- The final model was selected based on both performance and stability, not just the highest score.
 
-60% training
+## Fine Tuning
 
-20% validation
+After selecting Random Forest as the best model family, I used **RandomizedSearchCV** to improve performance.
 
-20% test
+**Best model settings**
+- SMOTE with `k_neighbors = 3`
+- Random Forest with 300 trees
+- `max_features = sqrt`
+- No maximum tree depth
 
-Hyperparameter tuning was performed using RandomizedSearchCV with Stratified K-Fold cross-validation. This ensured that each fold preserved the class distribution and that tuning was done only on the training data.
+**Validation performance**
+- **Accuracy:** 0.9507
+- **Balanced Accuracy:** 0.9362
+- **Macro F1-score:** 0.9256
 
-Tools used
-- Python
-- Pandas
-- NumPy
-- scikit-learn
-- imbalanced-learn
-- XGBoost
-- Matplotlib / Seaborn
-
-Example hyperparameters tuned
-- Decision Tree: max_depth, min_samples_split, min_samples_leaf
-- Random Forest: n_estimators, max_depth, min_samples_split, min_samples_leaf
-- XGBoost: n_estimators, learning_rate, max_depth, subsample, colsample_bytree
-
-
-
-### Results 
-The primary metric used for comparison was macro F1-score because the dataset is highly imbalanced. Macro F1 gives equal weight to every class, which is more informative than accuracy in this setting.
-
-Why macro F1?
-Accuracy can look good even when the model performs poorly on minority classes. Macro F1 shows whether the model is actually learning all classes, not just the majority ones.
-
-Results summary
-A model comparison table and validation plot were used to compare:
-
-RUS + Decision Tree
-
-RUS + Random Forest
-
-RUS + XGBoost
-
-Balanced Bagging + Decision Tree
-
-Balanced Bagging + Random Forest
-
-Balanced Bagging + XGBoost
-
-In addition to macro F1, I included:
-
-Classification reports
-
-Confusion matrices
-
-These helped show which classes were being predicted well and which were still difficult.
+**Stability check**
+I also tested the model with five different random seeds. The average Macro F1-score was **0.9253**, with a standard deviation of **0.0013**. This showed that the model was stable and not dependent on one random split.
 
 
-### Model Interpretation
+
+## Results 
+The final model achieved strong and consistent performance on the test set.
+
+### Test performance
+- **Accuracy:** 0.9517
+- **Balanced Accuracy:** 0.9341
+- **Macro F1-score:** 0.9267
+
+These results were very close to the validation scores, which suggests that the model generalized well and did not overfit.
+
+### Key observations
+- The most common confusion was between Class 1 and Class 2.
+- Some confusion also occurred between Class 3 and Class 6.
+- These classes appear in similar environmental conditions, which makes them harder to separate.
+
+### Visual outputs
+- Validation and test confusion matrices
+- Model comparison plots
+- Macro F1-score bar chart
+
+
+## Model Interpretation
+To understand what the model was learning, I used both feature importance and SHAP.
+
+### Most important features
+- Elevation
+- Horizontal distance to roadways
+- Horizontal distance to fire points
+- Horizontal distance to hydrology
+- Wilderness area
+- Vertical distance to hydrology
+- Hillshade
+- Soil type
+- Aspect
+
+### Why this matters
+The most important predictors were meaningful environmental variables, which increased confidence in the model. Elevation being the top feature makes sense because forest cover types are strongly tied to climate and terrain conditions.
+
+### SHAP insights
+SHAP confirmed that the model relied on realistic environmental patterns rather than random noise. It also helped explain why some classes were harder to distinguish, since certain forest cover types naturally overlap in environmental space.
+
 The best model based on our results was SMOTE+Random Forest, so we will be interpreting how this model works.
 
 <img width="1319" height="1720" alt="image" src="https://github.com/user-attachments/assets/13cb5d86-5474-4b69-99f6-6781c32332e6" />
@@ -162,37 +176,51 @@ The Error Analysis showed that the commonly confused pairs tend to be:
 
 It's possible that these classes commonly confused because the species that share similar elevation, soil, and hydrological conditions are naturally harder to distinguish from remotely sensed data alone. In this case it was classes 1 and 2. Another possible reason is that even after SMOTE and resampling, synthetic minority samples may not fully capture real-world feature variability. Finally, the soil types are-hot encoded collapses nuanced soil chemistry into 40 binary columns, which could potentially lose fine-grained distinctions.
 
-### Key Interpretation
-Stratified splitting was essential to preserve class proportions.
+## Key Interpretation
+- SMOTE helped the model learn minority classes more effectively.
+- Random Forest provided a strong balance of performance and stability.
+- Stratified splitting was necessary for fair evaluation.
+- Macro F1-score gave a clearer picture of model quality than accuracy alone.
+- Elevation was the strongest predictor of forest cover type.
 
-Random Undersampling provided a simple baseline but removed information from the majority classes.
+The final model is useful as a decision-support tool, but it should not replace expert judgment.
 
-Balanced Bagging was generally more stable because it trained multiple models on balanced samples.
+## Conclusion
+This project built a complete machine learning workflow for forest cover type prediction. The workflow included data understanding, preprocessing, class imbalance handling, model comparison, tuning, explainability, testing, and deployment.
 
-Macro F1 and confusion matrices gave a clearer picture of performance than accuracy alone.
+The final model, **SMOTE + Random Forest**, performed strongly on both validation and test data. The model handled the imbalanced multiclass problem well, and the explainability analysis showed that the predictions were driven by meaningful environmental features.
 
-The main takeaway is that imbalance-aware learning significantly improved the model’s ability to detect minority cover types.
+Overall, the project demonstrates that machine learning can be a useful decision-support tool for forest cover classification and environmental analysis.
 
-### Conclusion
-This project demonstrates an end-to-end machine learning workflow for a severely imbalanced multiclass dataset. By comparing Random Undersampling and Balanced Bagging across Decision Tree, Random Forest, and XGBoost, I was able to evaluate both simple and ensemble-based approaches to imbalance handling.
+## Future Work 
+Possible improvements include:
+- Adding remote sensing or climate-related features
+- Testing the model on other forest regions
+- Adding explainability directly into the Streamlit app
+- Improving input validation and user guidance
+- Exploring additional imbalance-handling methods such as Balanced Random Forest or cost-sensitive learning
 
-The final result is a reproducible, well-structured project that shows technical depth, model comparison, and thoughtful evaluation. It is designed to be understandable to both technical and non-technical audiences
-
-### Future Work 
-
-### How to run 
+## How to run 
+### 1. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-- Then run the notebook or script in this order:
-- Load and clean the data.
-- Perform stratified train/validation/test split.
-- Tune models with RandomizedSearchCV.
-- Evaluate on validation data.
-- Retrain the best models on train + validation.
-- Evaluate final performance on the test set.
+### 2. Run the project
+1. Load the dataset into the `data/` folder.
+2. Run the preprocessing notebook or script.
+3. Train the models.
+4. Evaluate validation and test results.
+5. Review the saved figures and metrics.
+6. Run the Streamlit app for interactive predictions.
+
+### 3. Launch the app
+```bash
+streamlit run app.py
+```
 
   
-### Repository Structure
+## Repository Structure
 Folder descriptions
 - data/: Raw and cleaned datasets.
 - notebooks/: EDA, preprocessing, and model development notebooks.
@@ -200,7 +228,7 @@ Folder descriptions
 - results/: Metrics tables and predictions.
 - images/: Charts, confusion matrices, and interpretation figures.
 
-### Requirements 
+## Requirements 
 - pandas
 - numpy
 - scikit-learn
