@@ -135,6 +135,7 @@ To understand what the model was learning, I used both feature importance and SH
 
 ### Most important features
 <img width="990" height="690" alt="image" src="https://github.com/user-attachments/assets/14616ea4-6041-41b4-8aaa-77caea34a008" />
+
 - Elevation
 - Horizontal distance to roadways
 - Horizontal distance to fire points
