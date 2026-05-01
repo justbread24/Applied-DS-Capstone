@@ -23,28 +23,24 @@ Key features: Elevation, Aspect, Slope, Horizontal/Vertical Distance to Hydrolog
 
 ### Data Preprocessing 
 Upon first examination, using missingno, we saw that there weren't any missing or duplicate values. No cleaning or handling missing values was conducted. 
+
+
 The data preprocessing steps included:
+- Checking class distribution to confirm imbalance.
+- Splitting the dataset into train, validation, and test sets using stratified sampling so that each split preserved the original class proportions.
+- Encoding the target variable for XGBoost, since XGBoost requires class labels to start at 0.
+- Keeping the same observation indices across models so that all methods were evaluated on the same splits.
 
-Checking class distribution to confirm imbalance.
-
-Splitting the dataset into train, validation, and test sets using stratified sampling so that each split preserved the original class proportions.
-
-Encoding the target variable for XGBoost, since XGBoost requires class labels to start at 0.
-
-Keeping the same observation indices across models so that all methods were evaluated on the same splits.
 
 Because the dataset was already clean and structured, no heavy imputation was required.
 
 ### Exploratory Data Analysis 
 The EDA focused on understanding class imbalance and the relationship between predictors and the target. The following visualizations were included:
 
-Bar chart of class distribution for Cover_Type
-
-Correlation heatmap of numeric features
-
-Feature distribution plots for important variables such as Elevation and Slope
-
-Class-wise comparisons to understand which variables separate the cover types
+- Bar chart of class distribution for Cover_Type
+- Correlation heatmap of numeric features
+- Feature distribution plots for important variables such as Elevation and Slope
+- Class-wise comparisons to understand which variables separate the cover types
 
 The EDA showed that the dataset is strongly imbalanced and that some features, especially Elevation, are highly informative for classification.
 
@@ -52,21 +48,6 @@ The EDA showed that the dataset is strongly imbalanced and that some features, e
 
 The graph above is a histogram that shows the count numbers of our target variable Cover_type. 
 
-Cover_Type	
-
-2:	283301
-
-1:	211840
-
-3:	35754
-
-7:	20510
-
-6:	17367
-
-5:	9493
-
-4:	2747
 
 
 <img width="788" height="490" alt="image" src="https://github.com/user-attachments/assets/2777e73d-d530-4b6a-9dc3-1a52594ba543" />
@@ -77,13 +58,14 @@ I used both baseline and advanced models to compare performance under imbalance 
 
 Baseline models
 - Decision Tree
-
 - Random Forest
 
 These were included because they are easy to interpret and provide a strong baseline for tabular classification problems.
 
+
 Advanced model
-XGBoost
+- XGBoost
+
 
 XGBoost was selected because it is a powerful gradient boosting model that often performs well on structured data.
 
@@ -181,13 +163,50 @@ The Error Analysis showed that the commonly confused pairs tend to be:
 It's possible that these classes commonly confused because the species that share similar elevation, soil, and hydrological conditions are naturally harder to distinguish from remotely sensed data alone. In this case it was classes 1 and 2. Another possible reason is that even after SMOTE and resampling, synthetic minority samples may not fully capture real-world feature variability. Finally, the soil types are-hot encoded collapses nuanced soil chemistry into 40 binary columns, which could potentially lose fine-grained distinctions.
 
 ### Key Interpretation
+Stratified splitting was essential to preserve class proportions.
+
+Random Undersampling provided a simple baseline but removed information from the majority classes.
+
+Balanced Bagging was generally more stable because it trained multiple models on balanced samples.
+
+Macro F1 and confusion matrices gave a clearer picture of performance than accuracy alone.
+
+The main takeaway is that imbalance-aware learning significantly improved the model’s ability to detect minority cover types.
 
 ### Conclusion
+This project demonstrates an end-to-end machine learning workflow for a severely imbalanced multiclass dataset. By comparing Random Undersampling and Balanced Bagging across Decision Tree, Random Forest, and XGBoost, I was able to evaluate both simple and ensemble-based approaches to imbalance handling.
+
+The final result is a reproducible, well-structured project that shows technical depth, model comparison, and thoughtful evaluation. It is designed to be understandable to both technical and non-technical audiences
 
 ### Future Work 
 
 ### How to run 
+pip install -r requirements.txt
 
+- Then run the notebook or script in this order:
+- Load and clean the data.
+- Perform stratified train/validation/test split.
+- Tune models with RandomizedSearchCV.
+- Evaluate on validation data.
+- Retrain the best models on train + validation.
+- Evaluate final performance on the test set.
+
+  
 ### Repository Structure
+Folder descriptions
+- data/: Raw and cleaned datasets.
+- notebooks/: EDA, preprocessing, and model development notebooks.
+- models/: Saved trained models.
+- results/: Metrics tables and predictions.
+- images/: Charts, confusion matrices, and interpretation figures.
 
 ### Requirements 
+- pandas
+- numpy
+- scikit-learn
+- imbalanced-learn
+- xgboost
+- matplotlib
+- seaborn
+- shap
+- jupyter
