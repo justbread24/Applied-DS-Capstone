@@ -134,6 +134,7 @@ These results were very close to the validation scores, which suggests that the 
 To understand what the model was learning, I used both feature importance and SHAP.
 
 ### Most important features
+<img width="990" height="690" alt="image" src="https://github.com/user-attachments/assets/14616ea4-6041-41b4-8aaa-77caea34a008" />
 - Elevation
 - Horizontal distance to roadways
 - Horizontal distance to fire points
@@ -156,15 +157,7 @@ The best model based on our results was SMOTE+Random Forest, so we will be inter
 
 The SHAP results supported the same general story as permutation importance: elevation and the distance-based features played a major role, and their influence changed direction depending on the observation. That is exactly why SHAP was useful - it did not only rank features, but it also showed that the effect of a feature could vary by case instead of acting as one fixed simple rule. 
 
- 
-<img width="990" height="690" alt="image" src="https://github.com/user-attachments/assets/14616ea4-6041-41b4-8aaa-77caea34a008" />
 
-The permutation importance reveals which features, when randomly shuffled, cause the greatest drop in macro-F1. This means which features the model relied on them most for correct predictions. Typically for the Forest Cover Type dataset:
-
-Elevation tends to be the most discriminative feature, as different tree species thrive at different altitudes.
-Horizontal_Distance_To_Roadways and Horizontal_Distance_To_Hydrology capture proximity effects that influence soil moisture and human disturbance.
-Wilderness_Area dummy variables reflect the distinct ecological zones with different dominant species.
-Features with near-zero or negative importance can be considered candidates for removal to simplify the model.
 
 <img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/14a4eac1-22be-4beb-a803-01fd35afea91" />
 
