@@ -131,7 +131,7 @@ These results were very close to the validation scores, which suggests that the 
 
 
 ## Model Interpretation
-To understand what the model was learning, I used both feature importance and SHAP.
+For this section we will be using the best model, which is SMOTE+Random Forest, and interpreting it. To understand what the model was learning, I used both feature importance and SHAP.
 
 ### Most important features
 <img width="990" height="690" alt="image" src="https://github.com/user-attachments/assets/14616ea4-6041-41b4-8aaa-77caea34a008" />
