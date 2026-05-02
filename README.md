@@ -46,18 +46,17 @@ The EDA showed that the dataset is strongly imbalanced and that some features, e
 
 <img width="597" height="455" alt="image" src="https://github.com/user-attachments/assets/6b1c0f53-86fc-412d-b43e-43ef9ba74c29" />
 
-The graph above is a histogram that shows the count numbers of our target variable Cover_type. 
-
+The graph above is a histogram that shows the count numbers of our target variable Cover_type. This shows us that there is a severe class imbalance where classes 1 and 2 are the majority while classes 4 and 5 are the minority, however the other classes are not represented either. 
 
 
 <img width="788" height="490" alt="image" src="https://github.com/user-attachments/assets/2777e73d-d530-4b6a-9dc3-1a52594ba543" />
 
-
-
-<img width="1489" height="8389" alt="image" src="https://github.com/user-attachments/assets/12a46462-dd30-48b5-8782-3ac3a2e503a5" />
+This graph shows us the different classes living in the different wilderness areas. As you can see class 2 are able to live in any wilderness and are able to make up a significant amount of the cover types that live in those areas. Then, some classes such as class 3 and 6 seem to thrive in wilderness area 4. 
 
 
 <img width="2210" height="2190" alt="image" src="https://github.com/user-attachments/assets/3b8207c7-66ad-473b-959f-44f698d2e2aa" />
+
+The Heat map illustrates that the features in our dataset are not closely correlated except in a few instances such as soil type and wilderness type.
 
 
 
