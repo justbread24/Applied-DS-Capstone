@@ -1,4 +1,4 @@
-# ENTER TITLE HERE
+# FOREST TREE COVER TYPE PREDICTOR
 
 ## Business Problem 
 This project predicts forest cover type from cartographic and environmental variables using machine learning. The dataset is highly imbalanced, so the project focuses on improving performance on minority classes rather than relying on accuracy alone.
