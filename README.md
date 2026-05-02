@@ -53,6 +53,15 @@ The graph above is a histogram that shows the count numbers of our target variab
 <img width="788" height="490" alt="image" src="https://github.com/user-attachments/assets/2777e73d-d530-4b6a-9dc3-1a52594ba543" />
 
 
+
+<img width="1489" height="8389" alt="image" src="https://github.com/user-attachments/assets/12a46462-dd30-48b5-8782-3ac3a2e503a5" />
+
+
+<img width="2210" height="2190" alt="image" src="https://github.com/user-attachments/assets/3b8207c7-66ad-473b-959f-44f698d2e2aa" />
+
+
+
+
 ## Modeling Approach 
 I tested several machine learning models to compare simple baselines with stronger tree-based methods.
 
